@@ -49,6 +49,9 @@ class Quiz_Forger_Activator {
         )$charset_collate;";
         
         dbDelta( $sql );
+    }
 
+    public static function do_activate() {
+        self::activate();
     }
 }

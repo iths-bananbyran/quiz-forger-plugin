@@ -9,6 +9,7 @@
 
 function activateQuizForger() {
     require_once plugin_dir_path( __FILE__ ) . 'includes/class-quiz-forger-activator.php';
+    Quiz_Forger_Activator::do_activate();
 }
 
 register_activation_hook( __FILE__, 'activateQuizForger' );
