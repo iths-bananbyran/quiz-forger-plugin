@@ -14,6 +14,7 @@ function activateQuizForger() {
 }
 
 //Skapa adminvy för skapa frågor
+require_once plugin_dir_path( __FILE__ ) . 'includes/qf_createQuestions.php';
 
 //skapa adminvy för skapa quiz, ska kunna hämta skapade frågor
 
