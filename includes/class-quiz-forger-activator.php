@@ -26,7 +26,7 @@ class Quiz_Forger_Activator {
 
         //skapa tabell för quizes
         $sql = "CREATE TABLE `".$quizes_table."` (
-            `id` INT(16) UNSIGNED NOT NULL AUTO_INCREMENT,
+            `quiz_id` INT(16) UNSIGNED NOT NULL AUTO_INCREMENT,
             `title` VARCHAR(256) NOT NULL,
             `description` TEXT NOT NULL,
             `quiz_category_id` INT(11) UNSIGNED NOT NULL,
@@ -39,7 +39,7 @@ class Quiz_Forger_Activator {
         //skapa tabell för frågorna
 
         $sql = "CREATE TABLE `".$questions_table."` (
-            `id` INT(16) UNSIGNED NOT NULL AUTO_INCREMENT,
+            `question_id` INT(16) UNSIGNED NOT NULL AUTO_INCREMENT,
             `question` TEXT NOT NULL,
             `question_image` TEXT NULL DEFAULT NULL,
             `wrong_answer_1` TEXT DEFAULT NULL,
@@ -47,7 +47,8 @@ class Quiz_Forger_Activator {
             `wrong_answer_3` TEXT DEFAULT NULL,
             `right_answer` TEXT DEFAULT NULL,
             `explanation` TEXT DEFAULT NULL,
-            PRIMARY KEY (`id`)
+            PRIMARY KEY (`question_id`),
+            FOREIGN KEY (`quiz_id`) REFERENCE `$quizes_table`(id)
         )$charset_collate;";
         
         dbDelta( $sql );

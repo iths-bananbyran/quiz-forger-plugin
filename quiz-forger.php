@@ -18,19 +18,15 @@ function activateQuizForger() {
 function display_quiz_dashboard(){
     global $wpdb;
     $table_name = $wpdb->prefix . 'quizforgequizes';
-    var_dump($table_name);
-    $wpdb->show_errors( true );
     $retrieve_entries = $wpdb->get_results( "SELECT * FROM $table_name" );
-    $wpdb->last_query;
 
-    // if(isset($retrieve_entries)) {
-    //     foreach($retrieve_entries as $entry) {
-    //         echo "<p>$entry->title</p>";
-    //     }
-    // } else {
-    //     echo "<p>No entries found</p>";
-    // }
-    var_dump($retrieve_entries);
+    if(isset($retrieve_entries)) {
+        foreach($retrieve_entries as $entry) {
+            echo "<p>$entry->title</p>";
+        }
+    } else {
+        echo "<p>No entries found</p>";
+    }
 }
 
 function quiz_dashboard() {
