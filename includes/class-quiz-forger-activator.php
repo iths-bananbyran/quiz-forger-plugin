@@ -42,8 +42,10 @@ class Quiz_Forger_Activator {
             `id` INT(16) UNSIGNED NOT NULL AUTO_INCREMENT,
             `question` TEXT NOT NULL,
             `question_image` TEXT NULL DEFAULT NULL,
-            `wrong_answer_text` TEXT DEFAULT NULL,
-            `right_answer_text` TEXT DEFAULT NULL,
+            `wrong_answer_1` TEXT DEFAULT NULL,
+            `wrong_answer_2` TEXT DEFAULT NULL,
+            `wrong_answer_3` TEXT DEFAULT NULL,
+            `right_answer` TEXT DEFAULT NULL,
             `explanation` TEXT DEFAULT NULL,
             PRIMARY KEY (`id`)
         )$charset_collate;";
