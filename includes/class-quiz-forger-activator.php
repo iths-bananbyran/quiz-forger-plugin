@@ -31,7 +31,7 @@ class Quiz_Forger_Activator {
             `description` TEXT NOT NULL,
             `quiz_category_id` INT(11) UNSIGNED NOT NULL,
             `question_ids` TEXT NOT NULL,
-            PRIMARY KEY (`id`)
+            PRIMARY KEY (`quiz_id`)
         )$charset_collate;";
 
         dbDelta( $sql );
@@ -40,6 +40,7 @@ class Quiz_Forger_Activator {
 
         $sql = "CREATE TABLE `".$questions_table."` (
             `question_id` INT(16) UNSIGNED NOT NULL AUTO_INCREMENT,
+            `quiz_id` INT(16) UNSIGNED NOT NULL,
             `question` TEXT NOT NULL,
             `question_image` TEXT NULL DEFAULT NULL,
             `wrong_answer_1` TEXT DEFAULT NULL,
@@ -48,7 +49,7 @@ class Quiz_Forger_Activator {
             `right_answer` TEXT DEFAULT NULL,
             `explanation` TEXT DEFAULT NULL,
             PRIMARY KEY (`question_id`),
-            FOREIGN KEY (`quiz_id`) REFERENCE `$quizes_table`(id)
+            FOREIGN KEY (`quiz_id`) REFERENCES $quizes_table(`quiz_id`)
         )$charset_collate;";
         
         dbDelta( $sql );
