@@ -7,9 +7,9 @@ class Quiz_Forger_Activator {
         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
         global $wpdb;
 
-        $questions_table = $wpdb->prefix . 'quizforge-questions';
-        $quizes_table = $wpdb->prefix . 'quizforge-quizes';
-        $quiz_categories = $wpdb->prefix . 'quizforge-categories';
+        $questions_table = $wpdb->prefix . 'quizforgequestions';
+        $quizes_table = $wpdb->prefix . 'quizforgequizes';
+        $quiz_categories = $wpdb->prefix . 'quizforgecategories';
 
         $charset_collate = $wpdb->get_charset_collate();
 
