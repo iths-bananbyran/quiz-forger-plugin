@@ -7,13 +7,14 @@ function question_menu_markup() {
     <h1>Quiz Forge QuestionMaker</h1>
 
     <div class="qf-form-wrapper">
-      <form action="admin-post.php" method="post" id="qf-questionmaker-form" >
+      <form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post" id="qf-questionmaker-form" >
+      <input type="hidden" name="action" value="submit_question">
       <!-- Add a QUIZ that you want to add questions to -->
         
         <!-- Get all the quizzes from db and throw them in the select input -->
         <label for="qf-quiz-select-input">Select your quiz</label>
         <select id="qf-quiz-select-input" form="qf-questionmaker-form" name="quiz-list" class="qf-text-input">
-          <option selected>Select a Quiz</option>
+          <option selected disabled>Select a Quiz</option>
           <?php insertQuiz() ?>
         </select>
 
@@ -52,37 +53,48 @@ function question_menu_markup() {
         </div>
         <label for="qf-explanation">Add explanation to the answer? (Optional)</label>
         <textarea name="qf-explanation" id="qf-explanation" style="overflow:auto;resize:none" cols="30" rows="10"></textarea>
-        <input type="submit" value="Add question">
+        
+        <input type="submit" value="Add question" name="submit">
       </form>
     </div>
   </div>
 <?php
-}
+};
 
-$question_id = $quiz_id = $question = $answer1 = $answer2 = $answer3 = $answer4 = $right_answer = $explanation =  "";
+  // $question_id = $quiz_id = $question = $answer1 = $answer2 = $answer3 = $answer4 = $right_answer = $explanation =  "";
 
-add_action( 'admin_post_submit_question', function () {
-  if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  
-    // make validation
+
+add_action( "admin_post_submit_question", "admin_prefix_submit_question" );
+
+function admin_prefix_submit_question() {
+
+  if (isset($_POST["submit"])) {
     global $wpdb;
     $quiz_table = $wpdb->prefix . 'quizforgequizes';
     $question_table = $wpdb->prefix . 'quizforgequestions';
 
     $wpdb->insert( $question_table, array(
-      'question_id' => 0,
-      'quiz_id' => $_POST['quiz-list'],
-      'question' => $_POST["question"],
-      'question_image' => isset($_POST["question_image"]) ? $_POST["question_image"] : "",
-      'answer1' => $_POST["answer1"],
-      'answer2' => $_POST["answer2"],
-      'answer3' => $_POST["answer3"],
-      'answer4' => $_POST["answer4"],
-      'right_answer' => $_POST["right_answer"] == "1" ? "1" : $_POST["right_answer"] == "2" ? "2" : $_POST["right_answer"] == "3" ? "3" : "4",
-      'explanation' => $explanation
-    ))
+        'question_id' => "0",
+        'quiz_id' => $_POST['quiz-list'],
+        'question' => $_POST["question"],
+        'question_image' => isset($_POST["question_image"]) ? $_POST["question_image"] : "",
+        'answer1' => $_POST["answer1"],
+        'answer2' => $_POST["answer2"],
+        'answer3' => $_POST["answer3"],
+        'answer4' => $_POST["answer4"],
+        'right_answer' => $_POST["right_answer"],
+        'explanation' => $explanation
+      )
+    );
+  } else {
+    echo "Error submitting question";
   }
-})
+
+  wp_redirect(admin_url('/admin.php?page=question_maker'));
+
+  exit;
+ 
+}
 
 // function add_question_to_quiz() {
 //   global $wpdb;
