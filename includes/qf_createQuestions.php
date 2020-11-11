@@ -16,15 +16,16 @@ function question_menu_markup() {
         <!-- Get all the quizzes from db and throw them in the select input -->
         <?php
           global $wpdb;
+          $quizes_table = $wpdb->prefix . 'quizforgequizes';
           $quiz_query = $wpdb->get_results(
             "
               SELECT ID, NAME
-              FROM $wpdb->quiz_table
+              FROM $quizes_table
             "
           );
-          foreach ($quiz_query as $quiz_title) {
+          foreach ($quiz_query as $quiz_info) {
             
-            echo "<option value='" . $quiz_title . "'>" . $quiz_title . "</option>";
+            echo "<option value='" . $quiz_info->id . "'>" . $quiz_info->title . "</option>";
             
           }
         ?>
