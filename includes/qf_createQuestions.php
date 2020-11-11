@@ -9,71 +9,94 @@ function question_menu_markup() {
     <div class="qf-form-wrapper">
       <form action="admin-post.php" method="post" id="qf-questionmaker-form" >
       <!-- Add a QUIZ that you want to add questions to -->
-        <label for="qf-quiz-select-input">Select your quiz</label>
-        <select id="qf-quiz-select-input" form="qf-questionmaker-form" name="qf-quizzes" class="qf-text-input">
-          <option selected>Select a Quiz</option>
-        </select>
+        
         <!-- Get all the quizzes from db and throw them in the select input -->
-        <?php
-          global $wpdb;
-          $quizes_table = $wpdb->prefix . 'quizforgequizes';
-          $quiz_query = $wpdb->get_results(
-            "
-              SELECT ID, NAME
-              FROM $quizes_table
-            "
-          );
-          foreach ($quiz_query as $quiz_info) {
-            
-            echo "<option value='" . $quiz_info->id . "'>" . $quiz_info->title . "</option>";
-            
-          }
-        ?>
+        <label for="qf-quiz-select-input">Select your quiz</label>
+        <select id="qf-quiz-select-input" form="qf-questionmaker-form" name="quiz-list" class="qf-text-input">
+          <option selected>Select a Quiz</option>
+          <?php insertQuiz() ?>
+        </select>
+
       <!-- Write the question -->
         <div class="qf-input-wrapper">
           <label for="qf-question-input">Write your question here</label>
-          <input type="text" id="qf-question-input" class="qf-text-input" >
+          <input type="text" id="qf-question-input" class="qf-text-input" name="question" >
         </div>
 
-      <!-- From th start there's always four answer options. 
-      Can be changed to a more dynamic solution later -->
         <div class="qf-input-wrapper">
           <label for="qf-question-input">Answer 1: </label>
-          <input type="text" id="qf-answer1-input" class="qf-text-input" required>
-          <input type="radio" name="answer" id="answer1" value="1">
+          <input type="text" id="qf-answer1-input" class="qf-text-input" name="answer1" required>
+          <input type="radio" name="right_answer" id="answer1"  checked  value="1">
           <label for="answer1">Right answer?</label>
         </div>
 
         <div class="qf-input-wrapper">
           <label for="qf-question-input">Answer 2: </label>
-          <input type="text" id="qf-answer2-input" class="qf-text-input" required>
-          <input type="radio" name="answer" id="answer2" value="2">
+          <input type="text" id="qf-answer2-input" class="qf-text-input" name="answer2" required>
+          <input type="radio" name="right_answer" id="answer2" value="2">
           <label for="answer2">Right answer?</label>
         </div>
 
         <div class="qf-input-wrapper">
           <label for="qf-question-input">Answer 3: </label>
-          <input type="text" id="qf-answer3-input" class="qf-text-input" required>
-          <input type="radio" name="answer" id="answer3" value="3">
+          <input type="text" id="qf-answer3-input" class="qf-text-input" name="answer3" required>
+          <input type="radio" name="right_answer" id="answer3" value="3">
           <label for="answer3">Right answer?</label>
         </div>
 
         <div class="qf-input-wrapper">
           <label for="qf-question-input">Answer 4: </label>
-          <input type="text" id="qf-answer4-input" class="qf-text-input" required>
-          <input type="radio" name="answer" id="answer4" value="4">
+          <input type="text" id="qf-answer4-input" class="qf-text-input" name="answer4" required>
+          <input type="radio" name="right_answer" id="answer4" value="4">
           <label for="answer4">Right answer?</label>
         </div>
         <label for="qf-explanation">Add explanation to the answer? (Optional)</label>
         <textarea name="qf-explanation" id="qf-explanation" style="overflow:auto;resize:none" cols="30" rows="10"></textarea>
-
+        <input type="submit" value="Add question">
       </form>
     </div>
   </div>
 <?php
 }
 
-// Lägg till i admin menyn (alla menyer borde finnas som submenyer under en huvudmeny QuizForge)
+$question_id = $quiz_id = $question = $answer1 = $answer2 = $answer3 = $answer4 = $right_answer = $explanation =  "";
+
+add_action( 'admin_post_submit_question', function () {
+  if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  
+    // make validation
+    global $wpdb;
+    $quiz_table = $wpdb->prefix . 'quizforgequizes';
+    $question_table = $wpdb->prefix . 'quizforgequestions';
+
+    $wpdb->insert( $question_table, array(
+      'question_id' => 0,
+      'quiz_id' => $_POST['quiz-list'],
+      'question' => $_POST["question"],
+      'question_image' => isset($_POST["question_image"]) ? $_POST["question_image"] : "",
+      'answer1' => $_POST["answer1"],
+      'answer2' => $_POST["answer2"],
+      'answer3' => $_POST["answer3"],
+      'answer4' => $_POST["answer4"],
+      'right_answer' => $_POST["right_answer"] == "1" ? "1" : $_POST["right_answer"] == "2" ? "2" : $_POST["right_answer"] == "3" ? "3" : "4",
+      'explanation' => $explanation
+    ))
+  }
+})
+
+// function add_question_to_quiz() {
+//   global $wpdb;
+//   $db_table = $wpdb->prefix . 'quizforgequizes';
+//   $quiz_id = $_POST["select value"] // Pseudo kod
+// }
+
+function insertQuiz() {
+  global $wpdb;
+  $quizes_table = $wpdb->prefix . 'quizforgequizes';
+  $quiz_query = $wpdb->get_results( "SELECT * FROM $quizes_table" );
+  foreach ($quiz_query as $quiz_data) { echo "<option value='" . $quiz_data->quiz_id . "'>" . $quiz_data->title . "</option>"; }
+}
+
 add_action("admin_menu", "createQuestion_menu");
 
 function createQuestion_menu() {
