@@ -7,7 +7,7 @@ function question_menu_markup() {
     <h1>Quiz Forge QuestionMaker</h1>
 
     <div class="qf-form-wrapper">
-      <form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post" id="qf-questionmaker-form" >
+      <form action="admin-post.php" method="post" id="qf-questionmaker-form" >
       <input type="hidden" name="action" value="submit_question">
       <!-- Add a QUIZ that you want to add questions to -->
         
@@ -67,22 +67,29 @@ function question_menu_markup() {
 add_action( "admin_post_submit_question", "admin_prefix_submit_question" );
 
 function admin_prefix_submit_question() {
+  
+  global $wpdb;
+  $question_table = $wpdb->prefix . 'quizforgequestions';
 
   if (isset($_POST["submit"])) {
-    global $wpdb;
-    $quiz_table = $wpdb->prefix . 'quizforgequizes';
-    $question_table = $wpdb->prefix . 'quizforgequestions';
+    $quiz_id = $_POST['quiz-list'];
+    $answer1 = $_POST['answer1'];
+    $answer2 = $_POST['answer2'];
+    $answer3 = $_POST['answer3'];
+    $answer4 = $_POST['answer4'];
+    $question = $_POST['question'];
+    $right_answer = $_POST['right_answer'];
+    $explanation = $_POST['qf-explanation'];
 
     $wpdb->insert( $question_table, array(
-        'question_id' => "0",
-        'quiz_id' => $_POST['quiz-list'],
-        'question' => $_POST["question"],
-        'question_image' => isset($_POST["question_image"]) ? $_POST["question_image"] : "",
-        'answer1' => $_POST["answer1"],
-        'answer2' => $_POST["answer2"],
-        'answer3' => $_POST["answer3"],
-        'answer4' => $_POST["answer4"],
-        'right_answer' => $_POST["right_answer"],
+        //question id behövs inte pga autoincrement
+        'quiz_id' => $quiz_id,
+        'question' => $question,
+        'answer_1' => $answer1,
+        'answer_2' => $answer2,
+        'answer_3' => $answer3,
+        'answer_4' => $answer4,
+        'right_answer' => $right_answer,
         'explanation' => $explanation
       )
     );
