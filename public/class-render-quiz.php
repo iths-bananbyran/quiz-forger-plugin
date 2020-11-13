@@ -19,20 +19,22 @@ class Render {
         if ( !empty($questions) ) {
 
             foreach ($questions as $question) {
-                echo "<div class='card-container'>
-                <div class='card'>
-                    <div class='question' id=$question->question_id>
-                        <p>$question->title</p>
+
+                $right_answer = intval($question->right_answer);
+                echo "<div class='qf-card-container'>
+                <div class='qf-card'>
+                    <div class='qf-question' id=$question->question_id>
+                        <p class='qf-p'>$question->question</p>
                     </div>
-                    <div class='options'>
-                        <button class='answers'>$question->answer_1</button>
-                        <button class='answers'>$question->answer_2</button>
-                        <button class='answers'>$question->answer_3</button>
-                        <button class='answers'>$question->answer_4</button>
-                    </div>
-                    <p>Right answer: $question->right_answer</p>
-                </div>
-            </div>";
+                    <div class='qf-options'>";
+                
+                echo '<button class="qf-answers" data="'.(($right_answer === 1) ? "1":"0").'">'.$question->answer_1.'</button>';
+                echo '<button class="qf-answers" data="'.(($right_answer === 2) ? "1":"0").'">'.$question->answer_2.'</button>';
+                echo '<button class="qf-answers" data="'.(($right_answer === 3) ? "1":"0").'">'.$question->answer_3.'</button>';
+                echo '<button class="qf-answers" data="'.(($right_answer === 4) ? "1":"0").'">'.$question->answer_4.'</button>';
+                echo "</div>
+                        </div>
+                            </div>";
             }
         }
     }
