@@ -33,8 +33,11 @@ class Render {
                 echo '<button class="qf-answers" data="'.(($right_answer === 3) ? "1":"0").'">'.$question->answer_3.'</button>';
                 echo '<button class="qf-answers" data="'.(($right_answer === 4) ? "1":"0").'">'.$question->answer_4.'</button>';
                 echo "</div>
+                        </div>";
+                echo "<div class='qf-card-footer'>
+                        <button class='qf-next-btn'>Nästa fråga</button>
                         </div>
-                            </div>";
+                             </div>";
             }
         }
     }
