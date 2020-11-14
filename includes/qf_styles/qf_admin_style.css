@@ -1,0 +1,50 @@
+.qf-table {
+    width: 650px;
+    border: 1px solid #1FA4A4;
+    border-collapse: collapse;
+}
+
+.qf-th {
+    background-color: #79D3D3;
+    border: 1px solid #1FA4A4;
+}
+
+.qf-td {
+    color: #212731;
+    font-size: 20px;
+    padding: 10px 5px 5px 30px;
+    border: 1px solid #1FA4A4;
+    text-align: end;
+}
+
+.qf-heading {
+    font-size: 34px;
+    color: #1FA4A4;
+}
+
+.qf-preamble {
+    color: #212731;
+    font-size: 20px;
+}
+
+.qf-wrap {
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+}
+
+.qf-form {
+    display: flex;
+    flex-direction: column;
+    width: 650px;
+}
+
+.qf-btn-admin {
+    background-color: #79D3D3;
+    border: 2px solid #1FA4A4;
+    color: #212731;
+    width: fit-content;
+    font-size: 20px;
+    padding: 10px;
+    margin: 10px 0;
+}

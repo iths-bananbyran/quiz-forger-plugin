@@ -8,44 +8,16 @@
 */
 
 //Aktivera pluginet - sätta upp tabeller
+require_once plugin_dir_path( __FILE__ ) . 'includes/class-admin-quiz-forger.php';
+$quiz_forge_admin = new Admin_Quiz_Forger();
+
 function activateQuizForger() {
     require_once plugin_dir_path( __FILE__ ) . 'includes/class-quiz-forger-activator.php';
     Quiz_Forger_Activator::do_activate();
+    
 }
-
-//Skapa adminvy för skapa frågor
-
-function display_quiz_dashboard(){
-    global $wpdb;
-    $table_name = $wpdb->prefix . 'quizforgequizes';
-    $retrieve_entries = $wpdb->get_results( "SELECT * FROM $table_name" );
-
-    if(isset($retrieve_entries)) {
-        foreach($retrieve_entries as $entry) {
-            echo "<p>$entry->title</p>";
-        }
-    } else {
-        echo "<p>No entries found</p>";
-    }
-}
-
-function quiz_dashboard() {
-    add_menu_page(
-        "Quiz Dashboard", 
-        "Quiz Dashboard", 
-        "manage_options",
-        "Quizforger",
-        "display_quiz_dashboard");
-}
-
-add_action('admin_menu', 'quiz_dashboard');
-
-//skapa adminvy för skapa quiz, ska kunna hämta skapade frågor
-
-//skapa adminvy för alla befintliga quiz så man kan se dem och deras shortcode där id ingår
-
-//skapa shortcode
-
-//skapa api endpoints
 
 register_activation_hook( __FILE__, 'activateQuizForger' );
+add_action('admin_menu', array($quiz_forge_admin, 'quiz_dashboard_menu'));
+add_action('admin_enqueue_scripts', array($quiz_forge_admin, 'qf_admin_style'));
+add_action('admin_post_create_quiz', array($quiz_forge_admin,'admin_prefix_create_quiz'));
