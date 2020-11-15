@@ -7,7 +7,6 @@
 * Author: Bananbyrån
 */
 
-//Aktivera pluginet - sätta upp tabeller
 require_once plugin_dir_path( __FILE__ ) . 'includes/class-admin-quiz-forger.php';
 $quiz_forge_admin = new Admin_Quiz_Forger();
 
@@ -27,7 +26,7 @@ function render_quiz($id) {
 }
 
 function quiz_shortcode($atts, $content = null) {
-    //add attr
+
     $a = shortcode_atts( array(
         'id' => ''
     ), $atts );
