@@ -18,7 +18,7 @@ function activateQuizForger() {
 }
 
 function enqueue_related_pages_scripts_and_styles(){
-    wp_enqueue_style('qf_style', plugins_url('/css/qf_style.css', __FILE__));
+    wp_enqueue_style('qf_style', plugins_url('public/css/qf_style.css', __FILE__));
 }
 
 function render_quiz($id) {
