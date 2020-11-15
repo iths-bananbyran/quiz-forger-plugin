@@ -40,5 +40,5 @@ add_action('admin_menu', array($quiz_forge_admin, 'quiz_dashboard_menu'));
 add_action('admin_enqueue_scripts', array($quiz_forge_admin, 'qf_admin_style'));
 add_action('admin_post_create_quiz', array($quiz_forge_admin,'admin_prefix_create_quiz'));
 add_action( 'admin_post_submit_question', array($quiz_forge_admin,'admin_prefix_submit_question'));
-add_action('wp_enqueue_scripts','enqueue_related_public_scripts_and_styles');
+add_action('wp_enqueue_scripts','enqueue_public_scripts_and_styles');
 add_shortcode('quiz', 'quiz_shortcode');
