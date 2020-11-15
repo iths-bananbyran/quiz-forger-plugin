@@ -139,7 +139,7 @@ class Admin_Quiz_Forger {
             <label for="qf-explanation">Add explanation to the answer? (Optional)</label>
             <textarea name="qf-explanation" id="qf-explanation" style="overflow:auto;resize:none" cols="30" rows="10"></textarea>
             
-            <input type="submit" value="Add question" name="submit">
+            <input type="submit" value="Add question" name="submit" class="qf-btn-admin">
                 </form>
                     </div>
                         </div>';

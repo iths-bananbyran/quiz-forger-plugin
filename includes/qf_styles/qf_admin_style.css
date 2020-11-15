@@ -42,9 +42,30 @@
 .qf-btn-admin {
     background-color: #79D3D3;
     border: 2px solid #1FA4A4;
+    border-radius: 4px;
     color: #212731;
     width: fit-content;
     font-size: 20px;
     padding: 10px;
     margin: 10px 0;
 }
+
+.qf-text-input {
+    margin-bottom: 10px;
+    margin-left: 10px;
+}
+
+.qf-question-input {
+    margin-bottom: 10px;
+    margin-right: 10px;
+}
+
+input[type=text], select {
+    width: 650px;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 2px solid #79D3D3;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
