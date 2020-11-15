@@ -59,7 +59,7 @@ class Admin_Quiz_Forger {
         echo "<input type='hidden' name='eventid' value='$event'>";
         echo '<label>Name your quiz: </label><input type:"text" name="quizName">';
         echo '<label>Describe your quiz: </label><textarea rows="5" cols="75" name="description"></textarea>';
-        echo '<input type="submit" value="Submit" class="qf-btn-admin">';
+        echo '<div class="qf-btn-wrapper"><input type="submit" value="Submit" class="qf-btn-admin"></div>';
         echo '</form> </div>';
 
     }
@@ -87,13 +87,46 @@ class Admin_Quiz_Forger {
         exit;
     }
 
+    public static function admin_prefix_submit_question() {
+  
+        global $wpdb;
+        $question_table = $wpdb->prefix . 'quizforgequestions';
+      
+        if (isset($_POST["submit"])) {
+          $quiz_id = $_POST['quiz-list'];
+          $answer1 = $_POST['answer1'];
+          $answer2 = $_POST['answer2'];
+          $answer3 = $_POST['answer3'];
+          $answer4 = $_POST['answer4'];
+          $question = $_POST['question'];
+          $right_answer = $_POST['right_answer'];
+          $explanation = $_POST['qf-explanation'];
+      
+          $wpdb->insert( $question_table, array(
+              'quiz_id' => $quiz_id,
+              'question' => $question,
+              'answer_1' => $answer1,
+              'answer_2' => $answer2,
+              'answer_3' => $answer3,
+              'answer_4' => $answer4,
+              'right_answer' => $right_answer,
+              'explanation' => $explanation
+            )
+          );
+        } else {
+          echo "Error submitting question";
+        }
+        wp_redirect(admin_url('/admin.php?page=add-questions'));
+        exit;
+      }
+
     public static function add_questions() {
 
         echo '<div class="qf-wrap">
         <h2 class="qf-heading">Create the questions for your quiz!</h2>
     
         <div class="qf-form-wrapper">
-          <form action="admin-post.php" method="post" id="qf-questionmaker-form" >
+          <form action="admin-post.php" method="post" id="qf-questionmaker-form" class="qf-form">
           <input type="hidden" name="action" value="submit_question">
             
             <label for="qf-quiz-select-input">Select your quiz</label>';
@@ -139,7 +172,9 @@ class Admin_Quiz_Forger {
             <label for="qf-explanation">Add explanation to the answer? (Optional)</label>
             <textarea name="qf-explanation" id="qf-explanation" style="overflow:auto;resize:none" cols="30" rows="10"></textarea>
             
-            <input type="submit" value="Add question" name="submit" class="qf-btn-admin">
+            <div class="qf-btn-wrapper">
+                <input type="submit" value="Add question" name="submit" class="qf-btn-admin">
+            </div>
                 </form>
                     </div>
                         </div>';
