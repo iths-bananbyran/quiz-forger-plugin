@@ -26,6 +26,16 @@ function render_quiz($id) {
     Render::quiz($id);
 }
 
+function quiz_shortcode($atts, $content = null) {
+    //add attr
+    $a = shortcode_atts( array(
+        'id' => ''
+    ), $atts );
+    ob_start();
+    render_quiz($a['id']);
+    return ob_get_clean();
+}
+
 register_activation_hook( __FILE__, 'activateQuizForger' );
 add_action('admin_menu', array($quiz_forge_admin, 'quiz_dashboard_menu'));
 add_action('admin_enqueue_scripts', array($quiz_forge_admin, 'qf_admin_style'));
