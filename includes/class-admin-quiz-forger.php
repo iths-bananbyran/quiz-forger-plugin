@@ -4,7 +4,13 @@ class Admin_Quiz_Forger {
 
     public static function qf_admin_style() {
 
+        if ( ! did_action( 'wp_enqueue_media' ) ) {
+            wp_enqueue_media();
+        }
+
         wp_enqueue_style('superform_styles', plugins_url('/qf_styles/qf_admin_style.css', __FILE__));
+        wp_enqueue_script('upload-image', plugins_url('/qf_admin_scripts/upload-image.js',__FILE__));
+
 
     }
 
@@ -137,6 +143,21 @@ class Admin_Quiz_Forger {
         self::render_quiz_select();
 
         echo '</select>';
+
+        if( $image = wp_get_attachment_image_src( $image_id ) ) {
+ 
+            echo '<a href="#" class="upload-question-img"><img src="' . $image[0] . '" /></a>
+                  <a href="#" class="remove-question-img">Remove image</a>
+                  <input type="hidden" name="question-img" value="' . $image_id . '">';
+         
+        } else {
+         
+            echo '<a href="#" class="upload-question-img">Upload image</a>
+                  <a href="#" class="remove-question-img" style="display:none">Remove image</a>
+                  <input type="hidden" name="question-img" value="">';
+         
+        }
+        
         echo '<div class="qf-input-wrapper">
                 <label for="qf-question-input">Write your question here</label>
                 <input type="text" id="qf-question-input" class="qf-text-input" name="question" >
