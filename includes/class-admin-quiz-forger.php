@@ -100,6 +100,7 @@ class Admin_Quiz_Forger {
       
         if (isset($_POST["submit"])) {
           $quiz_id = $_POST['quiz-list'];
+          $img_id = $_POST['question-img'];
           $answer1 = $_POST['answer1'];
           $answer2 = $_POST['answer2'];
           $answer3 = $_POST['answer3'];
@@ -111,6 +112,7 @@ class Admin_Quiz_Forger {
           $wpdb->insert( $question_table, array(
               'quiz_id' => $quiz_id,
               'question' => $question,
+              'question_image' => $img_id,
               'answer_1' => $answer1,
               'answer_2' => $answer2,
               'answer_3' => $answer3,
@@ -143,20 +145,9 @@ class Admin_Quiz_Forger {
         self::render_quiz_select();
 
         echo '</select>';
-
-        if( $image = wp_get_attachment_image_src( $image_id ) ) {
- 
-            echo '<a href="#" class="upload-question-img"><img src="' . $image[0] . '" /></a>
-                  <a href="#" class="remove-question-img">Remove image</a>
-                  <input type="hidden" name="question-img" value="' . $image_id . '">';
          
-        } else {
-         
-            echo '<a href="#" class="upload-question-img">Upload image</a>
-                  <a href="#" class="remove-question-img" style="display:none">Remove image</a>
-                  <input type="hidden" name="question-img" value="">';
-         
-        }
+        echo '<a href="#" class="upload-question-img">Upload image</a>
+                <input type="hidden" id="img-value" name="question-img" value="">';
         
         echo '<div class="qf-input-wrapper">
                 <label for="qf-question-input">Write your question here</label>
