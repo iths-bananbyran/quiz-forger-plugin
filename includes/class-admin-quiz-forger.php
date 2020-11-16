@@ -201,7 +201,7 @@ class Admin_Quiz_Forger {
 
     }
 
-    public static function quiz_dashboard_menu() {
+    public function quiz_dashboard_menu() {
 
         add_menu_page('Quiz Forger', 
         'Quiz Forger', 
