@@ -100,7 +100,7 @@ class Admin_Quiz_Forger {
       
         if (isset($_POST["submit"])) {
           $quiz_id = $_POST['quiz-list'];
-          $img_id = $_POST['question-img'];
+          $img_url = $_POST['question-img'];
           $answer1 = $_POST['answer1'];
           $answer2 = $_POST['answer2'];
           $answer3 = $_POST['answer3'];
@@ -108,11 +108,15 @@ class Admin_Quiz_Forger {
           $question = $_POST['question'];
           $right_answer = $_POST['right_answer'];
           $explanation = $_POST['qf-explanation'];
+
+          if (!strlen($img_url)>0){
+              $img_url = null;
+          }
       
           $wpdb->insert( $question_table, array(
               'quiz_id' => $quiz_id,
               'question' => $question,
-              'question_image' => $img_id,
+              'question_image' => $img_url,
               'answer_1' => $answer1,
               'answer_2' => $answer2,
               'answer_3' => $answer3,
