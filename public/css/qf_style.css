@@ -4,8 +4,11 @@
 }
 
 :root{
-    --right-answer-color: #04a150;
-    --wrong-answer-color: #9E1620;
+    --right-answer-color: #00dd6b;
+    --right-answer-glow: #6aff00;
+    --wrong-answer-color: #d50311;
+    --wrong-answer-glow: #fd6670;
+    --hover-shadow: rgba(255,255,255,.5);
     --white: white;
     --black: black;
     --box-shadow: 10px 10px 10px -7px rgba(0,0,0,0.3);
@@ -85,7 +88,7 @@
     border-bottom-right-radius: 10px;
     box-shadow: var(--box-shadow);
     cursor: pointer;
-    transition: all .2s ease-in-out; 
+    transition: all .1s ease-in-out; 
     color: var(--black);
     text-align: left;
 }
@@ -95,7 +98,16 @@
 }
 
 .qf-answers:hover{
-    transform: scale(1.05);
+    /* background-color: var(--hover-shadow); */
+    transform: scale(1.03);
+}
+
+.qf-disabled {
+    pointer-events: none;
+}
+
+.qf-opaque {
+    opacity: .70;
 }
 
 .qf-explanation-wrapper {
@@ -121,12 +133,27 @@
     color: var(--wrong-answer-color);
 }
 
-.qf-scale {
+.qf-selected {
     transform: scale(1.05);
+}
+
+.qf-right-glow {
+    box-shadow: 4px 0px 15px var(--right-answer-glow),
+    -4px 0px 15px var(--right-answer-glow),
+    0px 4px 15px var(--right-answer-glow),
+    0px -4px 15px var(--right-answer-glow);
+}
+
+.qf-wrong-glow {
+    box-shadow: 4px 0px 15px var(--wrong-answer-glow) inset,
+    -4px 0px 15px var(--wrong-answer-glow) inset,
+    0px 4px 15px var(--wrong-answer-glow) inset,
+    0px -4px 15px var(--wrong-answer-glow) inset;
 }
 
 .qf-right-answer{
     border: 4px solid var(--right-answer-color);
+  
 }
 
 .qf-wrong-answer{
