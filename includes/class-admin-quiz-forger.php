@@ -4,7 +4,13 @@ class Admin_Quiz_Forger {
 
     public static function qf_admin_style() {
 
+        if ( ! did_action( 'wp_enqueue_media' ) ) {
+            wp_enqueue_media();
+        }
+
         wp_enqueue_style('superform_styles', plugins_url('/qf_styles/qf_admin_style.css', __FILE__));
+        wp_enqueue_script('upload-image', plugins_url('/qf_admin_scripts/upload-image.js',__FILE__));
+
 
     }
 
@@ -94,6 +100,7 @@ class Admin_Quiz_Forger {
       
         if (isset($_POST["submit"])) {
           $quiz_id = $_POST['quiz-list'];
+          $img_url = $_POST['question-img'];
           $answer1 = $_POST['answer1'];
           $answer2 = $_POST['answer2'];
           $answer3 = $_POST['answer3'];
@@ -101,10 +108,15 @@ class Admin_Quiz_Forger {
           $question = $_POST['question'];
           $right_answer = $_POST['right_answer'];
           $explanation = $_POST['qf-explanation'];
+
+          if (!strlen($img_url)>0){
+              $img_url = null;
+          }
       
           $wpdb->insert( $question_table, array(
               'quiz_id' => $quiz_id,
               'question' => $question,
+              'question_image' => $img_url,
               'answer_1' => $answer1,
               'answer_2' => $answer2,
               'answer_3' => $answer3,
@@ -137,6 +149,10 @@ class Admin_Quiz_Forger {
         self::render_quiz_select();
 
         echo '</select>';
+         
+        echo '<div class="qf-flex-wrap"><a href="#" class="upload-question-img"><span class="dashicons dashicons-format-image"></span> Upload image</a>
+                <input type="hidden" id="img-value" name="question-img" value=""></div>';
+        
         echo '<div class="qf-input-wrapper">
                 <label for="qf-question-input">Write your question here</label>
                 <input type="text" id="qf-question-input" class="qf-text-input" name="question" >
