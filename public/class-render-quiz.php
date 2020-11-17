@@ -33,11 +33,11 @@ class Render {
                     echo "<div class='qf-status-wrapper'>
                             <span class='qf-status-info'>
                                 <p class='qf-quiz-title'>".$quiz_info[0]->title."</p>
-                                <p class='qf-num-of-questions'>Number of q</p>
+                                <p class='qf-num-of-questions'></p>
                             <span>
                           </div>";
                         echo "<div class='qf-card'>";
-                            if($question->question_image) {
+                            if($question->question_image != null) {
                                 echo "<div class='qf-question-image'>
                                 <img src='$question->question_image'>
                                 </div>";
@@ -56,11 +56,11 @@ class Render {
                                 echo '<div class="qf-answers" data-id="'.(($right_answer === 4) ? "1":"0").'">
                                 <span class="qf-answer-text">'.$question->answer_4.'</span></div>';
                             echo "</div>";
+                            
                             if($question->explanation) {
-                                echo "<div class='qf-explanation-wrapper qf-hidden'>
-                                <span class='qf-explanation-text'>$question->explanation</span>
-                                </div>";
-                            }
+                            echo "<div class='qf-explanation-wrapper qf-hidden'>
+                            <span class='qf-explanation-text'>".$question->explanation."</span>
+                            </div>";}
                         echo "</div>";
                         echo "<div class='qf-card-footer'><button class='qf-next-btn qf-hidden'>Nästa fråga</button></div>";
                 echo "</div>";
