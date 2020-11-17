@@ -17,6 +17,42 @@
     text-align: end;
 }
 
+.qf-hide {
+    display: none;
+}
+
+.qf-accordion-btn {
+    background-color: transparent;
+    border: 0;
+}
+
+.qf-accordion-btn:hover {
+    color: #BC4092;
+    cursor: pointer;
+}
+
+.qf-accordion-btn:active {
+    color: #BC4092;
+    outline: none;
+}
+
+.qf-accordion-btn:focus {
+    color: #BC4092;
+    outline: none;
+}
+
+.qf-questions-container {
+    width: 650px;
+    color: #212731;
+    font-size: 16px;
+    padding: 40px;
+    background-color: #B7E791;
+}
+
+.qf-active {
+    background-color:  #B7E791;
+}
+
 .qf-heading {
     font-size: 34px;
     color: #1FA4A4;

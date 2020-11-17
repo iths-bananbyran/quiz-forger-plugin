@@ -9,8 +9,7 @@ class Admin_Quiz_Forger {
         }
 
         wp_enqueue_style('superform_styles', plugins_url('/qf_styles/qf_admin_style.css', __FILE__));
-        wp_enqueue_script('upload-image', plugins_url('/qf_admin_scripts/upload-image.js',__FILE__));
-
+        wp_enqueue_script('upload-image', plugins_url('/qf_admin_scripts/qf-admin.js',__FILE__));
 
     }
 
@@ -37,15 +36,24 @@ class Admin_Quiz_Forger {
     
                 $title = $entry->title;
                 $description = $entry->description;
+                $question_table = $wpdb->prefix . 'quizforgequestions';
+                $questions = $wpdb->get_results( "SELECT * FROM $question_table WHERE quiz_id=$entry->quiz_id" );
                 
                 echo 
                 "
-                <tr>
-                <td class='qf-td'>$title</td>
+                <tr class='qf-accordion'>
+                <td class='qf-td'><button class='qf-accordion-btn'>$title</button></td>
                 <td class='qf-td'>$description</td>
                 <td class='qf-td'>[quiz id=$entry->quiz_id]</td>
                 </tr>
+                <tr class='qf-questions qf-hide'>
+                <td class='qf-questions-container' colspan='3'>
+                <ol>
                 ";
+                foreach($questions as $question) {
+                    echo "<li>$question->question</li>";
+                }
+                echo "</ol></td></tr>";
     
             }
             echo "</table>";
