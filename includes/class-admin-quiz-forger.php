@@ -150,8 +150,8 @@ class Admin_Quiz_Forger {
 
         echo '</select>';
          
-        echo '<a href="#" class="upload-question-img">Upload image</a>
-                <input type="hidden" id="img-value" name="question-img" value="">';
+        echo '<div class="qf-flex-wrap"><a href="#" class="upload-question-img"><span class="dashicons dashicons-format-image"></span> Upload image</a>
+                <input type="hidden" id="img-value" name="question-img" value=""></div>';
         
         echo '<div class="qf-input-wrapper">
                 <label for="qf-question-input">Write your question here</label>

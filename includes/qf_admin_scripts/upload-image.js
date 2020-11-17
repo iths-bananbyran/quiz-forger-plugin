@@ -19,7 +19,11 @@ window.addEventListener('load', ()=>{
 			multiple: false
 		}).on('select', ()=> { 
 			let attachment = customUpload.state().get('selection').first().toJSON();
-			button.innerHTML = `${attachment.filename} was uploaded. Click here to change/remove.`;
+			button.innerHTML = `Change/remove?`;
+			let imgText = document.createElement('span');
+			button.before(imgText);
+			imgText.innerHTML = `${attachment.filename} was uploaded.`;
+			imgText.classList.add('qf-preamble');
 			img.value = attachment.url;
 		}).open();
     
