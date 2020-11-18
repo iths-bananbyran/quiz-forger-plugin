@@ -14,7 +14,7 @@
     --box-shadow: 10px 10px 10px -7px rgba(0,0,0,0.3);
     --q-bg-color: rgba(255, 255, 255, .7);
     --fade1light: rgb(30, 234, 234);
-    --fade1dark:rgb(0, 106, 106);
+    --fade1dark:rgb(0, 143, 143);
 }
 
 .qf-card-container{
@@ -35,7 +35,24 @@
     font-size: 2rem;
 }
 
+.qf-quiz-title {
+    max-width: 20ch;
+}
+
+@media (min-width: 500px) {
+    .qf-quiz-title {
+        max-width: 40ch;
+    }
+}
+
+@media (max-width: 280px) {
+    .qf-quiz-title {
+        max-width: 15ch;
+    }
+}
+
 .qf-num-of-questions {
+    margin-top: auto;
     margin-left: auto;
 }
 
@@ -49,10 +66,20 @@
     background-image: linear-gradient( var(--fade1light), var(--fade1dark) );
 }
 
-.qf-question-image{
-    height: 200px;
-    background-size: cover;
+.qf-question-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 50px;
+    max-height: 300px;
+    /* background-size: cover; */
     border-top-right-radius: 30px;
+    overflow: hidden;
+}
+
+.qf-question-image > img {
+    width: 100%;
+    object-fit: cover;
 }
 
 .qf-question{
@@ -60,6 +87,7 @@
     padding: 20px;
     background-color: var(--q-bg-color);
     font-weight: bold;
+    width: 100%;
 }
 
 .qf-p{
@@ -72,7 +100,7 @@
     align-items: center;
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
-    padding-bottom: 2rem;
+    padding: 4rem 3rem 3rem 3rem;
 }
 
 .qf-answers{
@@ -82,7 +110,7 @@
     width: 80%;
     min-height: 50px;
     padding: .5rem 1rem;
-    margin-top: 2rem;
+    margin-bottom: 2rem;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
@@ -100,6 +128,23 @@
 .qf-answers:hover{
     /* background-color: var(--hover-shadow); */
     transform: scale(1.03);
+}
+
+.qf-card-footer{
+    margin-top: 1rem;
+}
+
+.qf-result-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: var(--box-shadow);
+    border-top-right-radius: 30px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    width: 100%;
+    overflow: hidden;
+    background-image: linear-gradient( var(--fade1light), var(--fade1dark) );
 }
 
 .qf-disabled {

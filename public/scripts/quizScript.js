@@ -1,8 +1,18 @@
-
 class QuizController {
   constructor() {
     this.count = 0;
-    this.score = {correct: 0, wrong: 0}
+    this.score = {
+      correct: 0,
+      wrong: 0,
+      percentage: 0
+    }
+    this.message = {
+      perfect: 'Du kunde verkligen det här! Bra jobbat!',
+      great: 'Wow, vi är impade! Du hade nästan alla rätt!',
+      good: 'Bra jobbat! Du hade mer än hälften rätt.',
+      moderate: 'Hm, du kanske borde läsa på lite innan du tar det här quizet en gång till. Du kan bättre! =)',
+      poor: 'Det här var illa. Du kanske ska prova ett quiz i ett ämne som intresserar dig mer?',
+    }
     this.user = 'unkown'
     this.fullQuiz = document.querySelectorAll('.qf-card-container')
     this.quizLength = this.fullQuiz.length
@@ -20,15 +30,15 @@ class QuizController {
 
   toggleVisibility(element) { element.classList.toggle('qf-hidden') }
 
-  getCurrentCard(){ return this.fullQuiz[this.count] }
+  getCurrentCard() { return this.fullQuiz[this.count] }
   
-  getInfoContainer() { return this.currentCard.childNodes[0].childNodes[0].nextSibling.childNodes[3]}
+  getInfoContainer() { return this.currentCard.querySelector('.qf-num-of-questions')}
 
-  getCurrentOptions(){ return this.fullQuiz[this.count].childNodes[1].childNodes[1].childNodes }
+  getCurrentOptions() { return this.currentCard.querySelectorAll('.qf-answers') }
   
-  getCurrentNextQestionButton(){ return this.currentCard.querySelector('.qf-next-btn') }
+  getCurrentNextQestionButton() { return this.currentCard.querySelector('.qf-next-btn') }
   
-  getCurrentExplanation(){
+  getCurrentExplanation() {
      const exp = this.currentCard.querySelector('.qf-explanation-wrapper') 
      return exp ? exp : '';
   }
@@ -87,10 +97,16 @@ class QuizController {
         }
       })
     }
-    
+
+    this.score.percentage = this.calculatePercentage()
+
     if (this.explanation) this.toggleVisibility(this.explanation)
     this.addListenerToNextBtn()
     this.toggleVisibility(this.nextQuestionBtn)
+
+    console.log('Correct: ', this.score.correct)
+    console.log('Wrong: ', this.score.wrong)
+    console.log('Procent: ', this.score.percentage)
   }
   
   addListenersToOptions() {
@@ -121,13 +137,11 @@ class QuizController {
   applyCss(elem, ...style) {
     elem.classList.add(...style)
   }
-  
-  toggleExplanation( ){
-    this.explanation.classList.toggle('qf-hidden')
-  }
-  
-  toggleNextBtn() {
-    this.nextQuestionBtn.classList.toggle('qf-hidden')
+
+  calculatePercentage() {
+    const result = (this.score.correct / this.quizLength ) * 100
+
+    return result.toFixed(1)
   }
 
   renderResultBtn() {
@@ -160,11 +174,32 @@ class QuizController {
     }
   }
 
+  createElement(elem, style) {
+    const element = document.createElement(elem)
+    element.classList.add(style)
+    return element
+  }
+
+  resultMessage() {
+    if (this.score.percentage >= 95) return this.message.perfect
+    if (this.score.percentage >= 80) return this.message.great
+    if (this.score.percentage > 50) return this.message.good
+    if (this.score.percentage >= 20) return this.message.moderate
+    if (this.score.percentage < 20) return this.message.poor
+  }
+
   handleResult() {
-    this.currentCard.innerHTML = '';
-    let result = document.createElement('h2')
-    result.innerHTML = `Du fick ${this.score.correct} rätt av ${this.quizLength} möjliga`
-    this.currentCard.appendChild(result);
+    this.currentCard.innerHTML = ''
+    this.currentCard.classList.add('qf-card')
+    let header = this.createElement('div', 'qf-question')
+    let headerP = this.createElement('p', 'qf-p')
+    headerP.innerHTML = `Du fick ${this.score.correct} rätt av ${this.quizLength} möjliga`
+    header.append(headerP)
+    let resultTextWrapper = this.createElement('div', 'qf-options')
+    let resultText = this.createElement('p', 'qf-p')
+    resultTextWrapper.append(resultText)
+    resultText.innerHTML = `Du svarade ${this.score.percentage}% rätt. <p> ${this.resultMessage()} </p>` 
+    this.currentCard.append(header, resultTextWrapper);
   }
   
   initQuiz() {
@@ -177,116 +212,3 @@ class QuizController {
 
 const quiz = new QuizController()
 quiz.initQuiz()
-
-
-// const allCards = document.querySelectorAll('.qf-card-container')
-// const numOfQuestions = allCards.length
-// let userClicked = false;
-// let count = 0;
-  
-
-// const getCurrCard = (allCards, c) => { return allCards[c] }
-// const getCurrOptions = (allCards, c) => {return allCards[c].childNodes[1].childNodes[1].childNodes}
-// const getCardTruth = (options) => {
-//   let truth = {
-//     wrong: [],
-//     right: '',
-//     allOptions: options
-//   }
-//   // Add an id to each answer starting from 1
-//   options.forEach((answer, i) => {
-//     const answerId = i + 1
-//     answer.id = 'option-' + answerId
-
-//     if(answer.dataset.id == 0) {
-//       truth.wrong.push(answer.id)
-//     } else {
-//       truth.right = answer.id
-//     }
-//   })
-//   return truth
-// }
-
-// let currCard = getCurrCard(allCards, count)
-// let currOptions = getCurrOptions(allCards, count)
-// let currTruth = getCardTruth(currOptions)
-  
-// const addListeners = (truth, userClicked, currCard, c) => {
-
-//   truth.allOptions.forEach(option => {
-//     option.addEventListener('click', () => {
-//       if (!userClicked) {
-
-//         handleAnswer(option, truth, currCard, c)
-  
-//       }
-//     })
-//   })
-//   let nextBtn = currCard.querySelector('.qf-next-btn')
-//   nextBtn.addEventListener('click', () => {
-//     handleNext(allCards, count, currCard)
-//   })
-// }
-  
-// const handleAnswer = (selected, truth, currCard) => {
-//   // right answer
-//   if (selected.id === truth.right) {
-//     applyCss(selected, 'qf-right-answer', 'qf-selected', 'qf-right-glow', 'qf-disabled')
-//     truth.allOptions.forEach(option => {
-//       if (truth.wrong.includes(option.id)) {
-//         applyCss(option, 'qf-disabled', 'qf-opaque')
-//       }
-//     })
-//     // wrong answer
-//   } else {
-//     applyCss(selected, 'qf-wrong-answer', 'qf-selected', 'qf-wrong-glow', 'qf-disabled')
-
-//     truth.allOptions.forEach((option) => {
-//       if (option.id != selected.id && option.id != truth.right) {
-//         applyCss(option, 'qf-disabled', 'qf-opaque')
-//       }
-//       if (option.id === truth.right) {
-//         applyCss(option,'qf-right-answer', 'qf-right-glow', 'qf-disabled')
-//       }
-//     })
-//   }
-//   toggleExplanation(currCard)
-//   toggleNextBtn(currCard)
-// }
-  
-// const applyCss = (elem, ...style) => {
-//   elem.classList.add(...style)
-// }
-
-// const toggleExplanation = (currCard) => {
-//   const explanation = currCard.querySelector('.qf-explanation-wrapper')
-//   explanation.classList.toggle('qf-hidden')
-// }
-
-// const toggleNextBtn = (currCard) => {
-//   const nextBtn = currCard.querySelector('.qf-next-btn')
-//   nextBtn.classList.toggle('qf-hidden')
-// }
-
-// const handleNext = (cards, count, hideCard) => {
-//   console.log('handleNext: ', userClicked);
-//   userClicked = true;
-//   if (userClicked) {
-//     userClicked = false;
-//     count++
-//     currCard = ''
-//     currOptions = ''
-//     currTruth = ''
-//     currCard = getCurrCard(cards, count)
-//     currOptions = getCurrOptions(cards, count)
-//     currTruth = getCardTruth(currOptions)
-//     addListeners(currTruth, userClicked, currCard, count);
-//     toggleVisibility(hideCard)
-//     toggleVisibility(currCard)
-//   }
-// }
-// addListeners(currTruth, userClicked, currCard, count);
-// toggleVisibility(allCards[count]);
-
-// }
-// truth, userClicked, currCard, c
