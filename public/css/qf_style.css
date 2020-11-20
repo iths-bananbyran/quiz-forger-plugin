@@ -38,6 +38,10 @@
     display: flex;
     justify-content: space-between;
   }
+
+  .qf-num-of-questions {
+      margin-top: auto;
+  }
   
   .qf-quiz-title {
     max-width: 20ch;
