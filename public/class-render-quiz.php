@@ -31,11 +31,12 @@ class Render {
                 require_once plugin_dir_path(__DIR__) . '/functions/unescape_str.php';
                 
                 $right_answer = intval($question->right_answer);
-                echo "<div class='qf-quiz-wrapper'>";
                 echo "<div class='qf-card-container qf-hidden'>";
                     echo "<div class='qf-status-wrapper'>
-                                <span class='qf-quiz-title'>". unescape_str($quiz_info[0]->title)."</span>
-                                <span class='qf-num-of-questions'></span>
+                            <span class='qf-status-info'>
+                                <p class='qf-quiz-title'>". unescape_str($quiz_info[0]->title)."</p>
+                                <p class='qf-num-of-questions'></p>
+                            <span>
                           </div>";
                         echo "<div class='qf-card'>";
                             if($question->question_image != null) {
@@ -64,7 +65,6 @@ class Render {
                             </div>";}
                         echo "</div>";
                         echo "<footer class='qf-card-footer'><button class='qf-next-btn qf-hidden'>Nästa fråga</button></footer>";
-                echo "</div>";
                 echo "</div>";
             }
         }

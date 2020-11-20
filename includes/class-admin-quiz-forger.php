@@ -9,14 +9,13 @@ class Admin_Quiz_Forger {
         }
 
         wp_enqueue_style('superform_styles', plugins_url('/qf_styles/qf_admin_style.css', __FILE__));
-        wp_enqueue_script('upload-image', plugins_url('/qf_admin_scripts/upload-image.js',__FILE__));
-
+        wp_enqueue_script('upload-image', plugins_url('/qf_admin_scripts/qf-admin.js',__FILE__));
 
     }
 
     public static function quiz_dashboard() {
 
-        delete_transient('selected_quiz'); 
+        delete_transient('selected_quiz');
         
         global $wpdb;
         $table_name = $wpdb->prefix . 'quizforgequizes';
@@ -39,15 +38,24 @@ class Admin_Quiz_Forger {
     
                 $title = $entry->title;
                 $description = $entry->description;
+                $question_table = $wpdb->prefix . 'quizforgequestions';
+                $questions = $wpdb->get_results( "SELECT * FROM $question_table WHERE quiz_id=$entry->quiz_id" );
                 
                 echo 
                 "
-                <tr>
-                <td class='qf-td'>$title</td>
+                <tr class='qf-accordion'>
+                <td class='qf-td'><button class='qf-accordion-btn'>$title</button></td>
                 <td class='qf-td'>$description</td>
                 <td class='qf-td'>[quiz id=$entry->quiz_id]</td>
                 </tr>
+                <tr class='qf-questions qf-hide'>
+                <td class='qf-questions-container' colspan='3'>
+                <ol>
                 ";
+                foreach($questions as $question) {
+                    echo "<li>$question->question</li>";
+                }
+                echo "</ol></td></tr>";
     
             }
             echo "</table>";
@@ -57,8 +65,6 @@ class Admin_Quiz_Forger {
     }
 
     public static function new_quiz() {
-
-        delete_transient('selected_quiz'); 
 
         $event = 'qf-new';
 
@@ -113,6 +119,8 @@ class Admin_Quiz_Forger {
           $right_answer = $_POST['right_answer'];
           $explanation = $_POST['qf-explanation'];
 
+          set_transient('selected_quiz', $quiz_id, 2000);
+
           if (!strlen($img_url)>0){
               $img_url = null;
           }
@@ -133,10 +141,11 @@ class Admin_Quiz_Forger {
           echo "Error submitting question";
         }
         wp_redirect(admin_url('/admin.php?page=add-questions'));
-        exit;
+        // exit;
       }
 
     public static function add_questions() {
+        $selected_quiz = get_transient('selected_quiz');
 
         echo '<div class="qf-wrap">
         <h2 class="qf-heading">Create the questions for your quiz!</h2>
@@ -148,9 +157,9 @@ class Admin_Quiz_Forger {
             <label for="qf-quiz-select-input">Select your quiz</label>';
 
         echo '<select id="qf-quiz-select-input" form="qf-questionmaker-form" name="quiz-list" class="qf-text-input">
-              <option selected disabled>Select a Quiz</option>';
+              <option>Select a Quiz</option>';
         
-        self::render_quiz_select();
+        self::render_quiz_select($selected_quiz);
 
         echo '</select>';
          
@@ -200,12 +209,12 @@ class Admin_Quiz_Forger {
                         </div>';
     }
 
-    public static function render_quiz_select(){
+    public static function render_quiz_select($selected_quiz){
 
         global $wpdb;
         $quizes_table = $wpdb->prefix . 'quizforgequizes';
         $quiz_query = $wpdb->get_results( "SELECT * FROM $quizes_table" );
-        foreach ($quiz_query as $quiz_data) { echo "<option value='" . $quiz_data->quiz_id . "'>" . $quiz_data->title . "</option>"; }
+        foreach ($quiz_query as $quiz_data) { echo '<option value="' . $quiz_data->quiz_id . '"  "' . selected($quiz_data->quiz_id, $selected_quiz) . '">' . $quiz_data->title . '</option>'; }
 
     }
 
