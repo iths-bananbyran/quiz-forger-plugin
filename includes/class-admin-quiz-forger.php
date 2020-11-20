@@ -15,7 +15,7 @@ class Admin_Quiz_Forger {
 
     public static function quiz_dashboard() {
 
-        delete_transient('selected_quiz');
+        delete_transient('selected_quiz'); 
         
         global $wpdb;
         $table_name = $wpdb->prefix . 'quizforgequizes';
@@ -65,6 +65,8 @@ class Admin_Quiz_Forger {
     }
 
     public static function new_quiz() {
+
+        delete_transient('selected_quiz'); 
 
         $event = 'qf-new';
 
