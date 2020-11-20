@@ -42,18 +42,6 @@ class QuizController {
      const exp = this.currentCard.querySelector('.qf-explanation-wrapper') 
      return exp ? exp : '';
   }
-  
-  updateInfoContainer() {
-    this.infoContainer.innerHTML = this.questionNr + ' / ' + this.quizLength;
-  }
-
-  checkIfEnd() {
-    if (this.count === this.quizLength - 1) {
-      return true;
-    } else {
-      return false;
-    }
-  }
 
   getTruth() {
     // Add an id to each answer starting from 1
@@ -72,6 +60,18 @@ class QuizController {
       }
     })
     return truth
+  }
+
+  updateInfoContainer() {
+    this.infoContainer.innerHTML = this.questionNr + ' / ' + this.quizLength;
+  }
+
+  checkIfEnd() {
+    if (this.count === this.quizLength - 1) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   handleAnswer() {
@@ -103,10 +103,6 @@ class QuizController {
     if (this.explanation) this.toggleVisibility(this.explanation)
     this.addListenerToNextBtn()
     this.toggleVisibility(this.nextQuestionBtn)
-
-    console.log('Correct: ', this.score.correct)
-    console.log('Wrong: ', this.score.wrong)
-    console.log('Procent: ', this.score.percentage)
   }
   
   addListenersToOptions() {
@@ -136,6 +132,12 @@ class QuizController {
 
   applyCss(elem, ...style) {
     elem.classList.add(...style)
+  }
+
+  createElement(elem, style) {
+    const element = document.createElement(elem)
+    element.classList.add(style)
+    return element
   }
 
   calculatePercentage() {
@@ -172,12 +174,6 @@ class QuizController {
       this.updateInfoContainer()
       this.toggleVisibility(this.currentCard)
     }
-  }
-
-  createElement(elem, style) {
-    const element = document.createElement(elem)
-    element.classList.add(style)
-    return element
   }
 
   resultMessage() {
