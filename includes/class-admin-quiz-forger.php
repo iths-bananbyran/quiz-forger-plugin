@@ -15,11 +15,8 @@ class Admin_Quiz_Forger {
     }
 
     public static function quiz_dashboard() {
-<<<<<<< HEAD
-=======
 
         delete_transient('selected_quiz'); 
->>>>>>> 61a06f15677b600a2410c63c72625374701d14e6
         
         global $wpdb;
         $table_name = $wpdb->prefix . 'quizforgequizes';
