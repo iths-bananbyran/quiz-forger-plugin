@@ -19,6 +19,13 @@ class Render {
         return $quiz_info;
         
     }
+
+    public function quiz_object($id) {
+        $questions = self::get_questions($id);
+        $quiz_title = self::get_quiz_title($id);
+        $object = array($quiz_title, $questions);
+        return $object;
+    }
     
     public static function quiz($id) {
         
